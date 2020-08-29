@@ -1,0 +1,18 @@
+version: "3.1"
+services:
+  three-algo:
+    image: three-algorithm
+    build: .
+    command: ${CMD_CLEAN:-python3 -u run_insurer.py}
+    container_name: three-algo
+    labels:
+      com.health.module: "Health Algorithm"
+    environment:
+      HOST: "three-algo:6000"
+      FLASK_ENV: "development"
+    logging:
+      driver: "json-file"
+    ports:
+      - "6000:6000"
+    volumes:
+      - .:/app_three

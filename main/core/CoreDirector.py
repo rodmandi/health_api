@@ -3,6 +3,7 @@ from core.factory.FirstAPICallObjectCreator import FirstAPICallObjectCreator
 from core.factory.SecondAPICallObjectCreator import SecondAPICallObjectCreator
 from core.factory.ThirdAPICallObjectCreator import ThirdAPICallObjectCreator
 from core.algorithms.select_best_insurer import select_best_insurer
+from core.helpers.standardization import format_result_object
 import json
 
 
@@ -18,28 +19,6 @@ class CoreDirector:
     """
     def __init__(self):
         self.api_name = "Health_API"
-
-    @staticmethod
-    def format_result_object(results):
-        """
-        Formats the result object so it can be send using requests
-        :param results: The object from cleaned results.
-        :return: The result object formatted
-        """
-        result = {}
-        for key, value in results.items():
-
-            if not isinstance(value, str):
-                if not isinstance(value, tuple):
-                    if not isinstance(value, dict):
-                        result[key] = str(value)
-                    else:
-                        result[key] = value
-                else:
-                    result[key] = value
-            else:
-                result[key] = value
-        return result
 
     def calculate_true_value(self, params):
         """
@@ -62,7 +41,7 @@ class CoreDirector:
             results.append(third_api.result)
         result = select_best_insurer(results)
         if result:
-            response = self.format_result_object(result)
+            response = format_result_object(result)
 
         return response
 

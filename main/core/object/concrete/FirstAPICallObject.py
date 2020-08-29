@@ -18,7 +18,6 @@ class FirstAPICallObject(APICallObject):
         self.method = method
         self.params = params
         response = super().send_request()
-
         if response is not None:
             try:
                 self.result["deductible"] = response["deductible"]

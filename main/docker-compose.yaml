@@ -20,19 +20,3 @@ services:
       - "7000:7000"
     volumes:
       - .:/app
-  three-algo:
-    image: three-algorithm
-    build: ../insurers_api
-    command: ${CMD_CLEAN:-python3 -u run.py}
-    container_name: three-algo
-    labels:
-      com.health.module: "Health Algorithm"
-    environment:
-      HOST: "three-algo:6000"
-      FLASK_ENV: "development"
-    logging:
-      driver: "json-file"
-    ports:
-      - "6000:6000"
-    volumes:
-      - .:/app_three
