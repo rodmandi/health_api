@@ -1,0 +1,38 @@
+version: "3.1"
+services:
+  health-algo:
+    image: health-algorithm
+    build: .
+    command: ${CMD_CLEAN:-python3 -u run.py}
+    container_name: health-algo
+    labels:
+      com.health.module: "Health Algorithm"
+    environment:
+      HOST: "health-algo:7000"
+      FLASK_ENV: "development"
+      DOMAIN: "three-algo"
+      FIRST_METHOD: "api1"
+      SECOND_METHOD: "api2"
+      THIRD_METHOD: "api3"
+    logging:
+      driver: "json-file"
+    ports:
+      - "7000:7000"
+    volumes:
+      - .:/app
+  three-algo:
+    image: three-algorithm
+    build: ../insurers_api
+    command: ${CMD_CLEAN:-python3 -u run.py}
+    container_name: three-algo
+    labels:
+      com.health.module: "Health Algorithm"
+    environment:
+      HOST: "three-algo:6000"
+      FLASK_ENV: "development"
+    logging:
+      driver: "json-file"
+    ports:
+      - "6000:6000"
+    volumes:
+      - .:/app_three
